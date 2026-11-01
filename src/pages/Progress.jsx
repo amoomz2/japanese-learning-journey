@@ -1,5 +1,6 @@
 import { kanaList } from '../data/kana.js'
 import { vocabList } from '../data/vocab.js'
+import OfflineCard from '../pwa/OfflineCard.jsx'
 import { computeStreak, isLearned, todayKey, useProgress } from '../state/progress.jsx'
 
 export function useStats() {
@@ -116,6 +117,8 @@ export default function Progress() {
           </ul>
         </div>
       )}
+
+      <OfflineCard />
 
       <button className="btn danger subtle" onClick={onReset}>
         Reset practice progress

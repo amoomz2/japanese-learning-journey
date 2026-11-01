@@ -15,6 +15,19 @@ A personal website for learning Japanese, built with Vite and React.
 
 Progress and journal entries are saved in the browser's `localStorage`.
 
+## Install on iPhone & offline use
+
+The site is a Progressive Web App (via `vite-plugin-pwa`).
+
+- Open the live site in **Safari**, tap **Share → Add to Home Screen**. It opens full screen like an app.
+- On first visit the service worker caches the whole app (all lessons are in the bundle) plus the Japanese font, so kana, vocabulary, flashcards, quizzes, progress and the study log all work in Airplane Mode.
+- Progress is stored on the device (`localStorage`); there is no server, so nothing needs syncing.
+- **Progress → Offline & storage** shows connection and offline status, storage use, and lets you protect data from cleanup or remove the offline copy.
+- When a new version is deployed, a banner offers **Update now**.
+- Needs internet: the very first visit, and fetching updates. Pronunciation offline needs a Japanese voice installed on the device.
+
+Icons are generated from `public/icon.svg` with `npm run icons`.
+
 ## Getting started
 
 ```bash

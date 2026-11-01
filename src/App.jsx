@@ -5,6 +5,7 @@ import Vocabulary from './pages/Vocabulary.jsx'
 import Practice from './pages/Practice.jsx'
 import Progress from './pages/Progress.jsx'
 import Journal from './pages/Journal.jsx'
+import { applyUpdate, useOfflineState, useOnline } from './pwa/offline.js'
 
 const PAGES = {
   home: { label: 'Home', component: Home },
@@ -24,6 +25,8 @@ function currentPage() {
 
 export default function App() {
   const [page, setPage] = useState(currentPage)
+  const online = useOnline()
+  const { needRefresh } = useOfflineState()
 
   useEffect(() => {
     const onHash = () => {
@@ -42,10 +45,25 @@ export default function App() {
 
   return (
     <div className="app">
+      {needRefresh && (
+        <div className="update-banner" role="status">
+          A new version is available.
+          <button className="btn subtle" onClick={applyUpdate}>
+            Update now
+          </button>
+        </div>
+      )}
       <nav className="nav">
-        <a href="#/home" className="brand">
-          🌸 <span>日本語 Journey</span>
-        </a>
+        <div>
+          <a href="#/home" className="brand">
+            🌸 <span>日本語 Journey</span>
+          </a>
+          {!online && (
+            <span className="offline-badge" role="status">
+              Offline
+            </span>
+          )}
+        </div>
         <div className="nav-links">
           {Object.entries(PAGES)
             .filter(([key]) => key !== 'home')
