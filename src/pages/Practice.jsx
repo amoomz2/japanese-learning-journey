@@ -3,7 +3,6 @@ import { kanaList } from '../data/kana.js'
 import { VOCAB_CATEGORIES, vocabList } from '../data/vocab.js'
 import { useProgress } from '../state/progress.jsx'
 import { canSpeak, speak } from '../utils/speech.js'
-import ExplainMistakes from '../ai/ExplainMistakes.jsx'
 
 const QUIZ_LENGTH = 10
 
@@ -260,7 +259,6 @@ function Quiz({ pool }) {
                 </button>
               ))}
             </div>
-            <ExplainMistakes missed={missed} />
           </>
         )}
         <button className="btn primary" onClick={restart}>
