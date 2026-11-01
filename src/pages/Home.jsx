@@ -33,6 +33,12 @@ export default function Home({ go }) {
           </strong>
         </div>
         <div className="card stat">
+          <span className="muted small">Words learned</span>
+          <strong className="stat-value">
+            {stats.vocab.learned}/{stats.vocab.total}
+          </strong>
+        </div>
+        <div className="card stat">
           <span className="muted small">Accuracy</span>
           <strong className="stat-value">{stats.accuracy === null ? '—' : `${stats.accuracy}%`}</strong>
         </div>
@@ -41,7 +47,8 @@ export default function Home({ go }) {
       <div className="feature-grid">
         {[
           ['kana', 'あ', 'Kana charts', 'Hiragana and katakana with pronunciation.'],
-          ['practice', '練', 'Flashcards & quizzes', 'Drill characters and test yourself.'],
+          ['vocab', '語', 'Vocabulary', 'Everyday beginner words, grouped by topic.'],
+          ['practice', '練', 'Flashcards & quizzes', 'Drill kana and words, then test yourself.'],
           ['progress', '進', 'Progress', 'Streaks, accuracy and your weak spots.'],
           ['journal', '記', 'Study log', 'Write down milestones along the way.'],
         ].map(([page, icon, title, text]) => (

@@ -1,4 +1,5 @@
 import { kanaList } from '../data/kana.js'
+import { vocabList } from '../data/vocab.js'
 import { computeStreak, isLearned, todayKey, useProgress } from '../state/progress.jsx'
 
 export function useStats() {
@@ -8,9 +9,12 @@ export function useStats() {
     const learned = all.filter((k) => isLearned(data.kana[k.id])).length
     return { script, learned, total: all.length }
   })
+  const words = vocabList()
+  const vocab = { learned: words.filter((w) => isLearned(data.kana[w.id])).length, total: words.length }
   const answers = Object.values(data.kana).reduce((acc, s) => ({ correct: acc.correct + s.correct, total: acc.total + s.correct + s.wrong }), { correct: 0, total: 0 })
   return {
     scripts,
+    vocab,
     streak: computeStreak(data.activeDays),
     daysStudied: data.activeDays.length,
     accuracy: answers.total ? Math.round((answers.correct / answers.total) * 100) : null,
@@ -56,10 +60,13 @@ export default function Progress() {
       </div>
 
       <div className="card">
-        <h2>Kana learned</h2>
-        {stats.scripts.map((s) => (
-          <div key={s.script} className="progress-row">
-            <span className="progress-label">{s.script === 'hiragana' ? 'ひらがな' : 'カタカナ'}</span>
+        <h2>Learned so far</h2>
+        {[
+          ...stats.scripts.map((s) => ({ ...s, label: s.script === 'hiragana' ? 'ひらがな' : 'カタカナ' })),
+          { ...stats.vocab, label: '単語 words' },
+        ].map((s) => (
+          <div key={s.label} className="progress-row">
+            <span className="progress-label">{s.label}</span>
             <div className="bar" role="progressbar" aria-valuenow={s.learned} aria-valuemax={s.total}>
               <div className="bar-fill" style={{ width: `${(s.learned / s.total) * 100}%` }} />
             </div>

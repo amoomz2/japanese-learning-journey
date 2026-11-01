@@ -1,0 +1,147 @@
+// Beginner vocabulary. `kanji` is omitted for words usually written in kana.
+// Each row: [kanji, kana, romaji, meaning]
+const RAW = {
+  greetings: {
+    label: 'Greetings',
+    icon: '👋',
+    words: [
+      [null, 'おはようございます', 'ohayou gozaimasu', 'Good morning'],
+      [null, 'こんにちは', 'konnichiwa', 'Hello'],
+      [null, 'こんばんは', 'konbanwa', 'Good evening'],
+      [null, 'さようなら', 'sayounara', 'Goodbye'],
+      [null, 'おやすみなさい', 'oyasuminasai', 'Good night'],
+      [null, 'ありがとう', 'arigatou', 'Thank you'],
+      [null, 'すみません', 'sumimasen', 'Excuse me'],
+      [null, 'ごめんなさい', 'gomennasai', "I'm sorry"],
+      [null, 'はい', 'hai', 'Yes'],
+      [null, 'いいえ', 'iie', 'No'],
+      [null, 'おねがいします', 'onegaishimasu', 'Please'],
+      [null, 'はじめまして', 'hajimemashite', 'Nice to meet you'],
+      [null, 'いただきます', 'itadakimasu', 'Said before eating'],
+    ],
+  },
+  numbers: {
+    label: 'Numbers',
+    icon: '🔢',
+    words: [
+      ['一', 'いち', 'ichi', 'One'],
+      ['二', 'に', 'ni', 'Two'],
+      ['三', 'さん', 'san', 'Three'],
+      ['四', 'よん', 'yon', 'Four'],
+      ['五', 'ご', 'go', 'Five'],
+      ['六', 'ろく', 'roku', 'Six'],
+      ['七', 'なな', 'nana', 'Seven'],
+      ['八', 'はち', 'hachi', 'Eight'],
+      ['九', 'きゅう', 'kyuu', 'Nine'],
+      ['十', 'じゅう', 'juu', 'Ten'],
+      ['百', 'ひゃく', 'hyaku', 'Hundred'],
+      ['千', 'せん', 'sen', 'Thousand'],
+    ],
+  },
+  family: {
+    label: 'Family & people',
+    icon: '👪',
+    words: [
+      ['母', 'はは', 'haha', '(My) mother'],
+      ['父', 'ちち', 'chichi', '(My) father'],
+      ['兄', 'あに', 'ani', '(My) older brother'],
+      ['姉', 'あね', 'ane', '(My) older sister'],
+      ['弟', 'おとうと', 'otouto', 'Younger brother'],
+      ['妹', 'いもうと', 'imouto', 'Younger sister'],
+      ['家族', 'かぞく', 'kazoku', 'Family'],
+      ['友達', 'ともだち', 'tomodachi', 'Friend'],
+      ['子供', 'こども', 'kodomo', 'Child'],
+      ['先生', 'せんせい', 'sensei', 'Teacher'],
+    ],
+  },
+  food: {
+    label: 'Food & drink',
+    icon: '🍙',
+    words: [
+      ['水', 'みず', 'mizu', 'Water'],
+      ['お茶', 'おちゃ', 'ocha', 'Tea'],
+      [null, 'コーヒー', 'koohii', 'Coffee'],
+      ['ご飯', 'ごはん', 'gohan', 'Rice / meal'],
+      [null, 'パン', 'pan', 'Bread'],
+      ['魚', 'さかな', 'sakana', 'Fish'],
+      ['肉', 'にく', 'niku', 'Meat'],
+      ['卵', 'たまご', 'tamago', 'Egg'],
+      ['野菜', 'やさい', 'yasai', 'Vegetables'],
+      ['果物', 'くだもの', 'kudamono', 'Fruit'],
+    ],
+  },
+  colors: {
+    label: 'Colours',
+    icon: '🎨',
+    words: [
+      ['赤', 'あか', 'aka', 'Red'],
+      ['青', 'あお', 'ao', 'Blue'],
+      ['白', 'しろ', 'shiro', 'White'],
+      ['黒', 'くろ', 'kuro', 'Black'],
+      ['黄色', 'きいろ', 'kiiro', 'Yellow'],
+      ['緑', 'みどり', 'midori', 'Green'],
+    ],
+  },
+  time: {
+    label: 'Time',
+    icon: '⏰',
+    words: [
+      ['今', 'いま', 'ima', 'Now'],
+      ['今日', 'きょう', 'kyou', 'Today'],
+      ['明日', 'あした', 'ashita', 'Tomorrow'],
+      ['昨日', 'きのう', 'kinou', 'Yesterday'],
+      ['朝', 'あさ', 'asa', 'Morning'],
+      ['夜', 'よる', 'yoru', 'Night'],
+      ['月曜日', 'げつようび', 'getsuyoubi', 'Monday'],
+      ['日曜日', 'にちようび', 'nichiyoubi', 'Sunday'],
+    ],
+  },
+  verbs: {
+    label: 'Verbs',
+    icon: '🏃',
+    words: [
+      ['食べる', 'たべる', 'taberu', 'To eat'],
+      ['飲む', 'のむ', 'nomu', 'To drink'],
+      ['行く', 'いく', 'iku', 'To go'],
+      ['来る', 'くる', 'kuru', 'To come'],
+      ['見る', 'みる', 'miru', 'To see'],
+      ['聞く', 'きく', 'kiku', 'To listen'],
+      ['話す', 'はなす', 'hanasu', 'To speak'],
+      ['読む', 'よむ', 'yomu', 'To read'],
+      ['書く', 'かく', 'kaku', 'To write'],
+      ['勉強する', 'べんきょうする', 'benkyou suru', 'To study'],
+    ],
+  },
+  adjectives: {
+    label: 'Adjectives',
+    icon: '✨',
+    words: [
+      ['大きい', 'おおきい', 'ookii', 'Big'],
+      ['小さい', 'ちいさい', 'chiisai', 'Small'],
+      ['新しい', 'あたらしい', 'atarashii', 'New'],
+      ['古い', 'ふるい', 'furui', 'Old (things)'],
+      ['高い', 'たかい', 'takai', 'Expensive / tall'],
+      ['安い', 'やすい', 'yasui', 'Cheap'],
+      ['美味しい', 'おいしい', 'oishii', 'Delicious'],
+      ['楽しい', 'たのしい', 'tanoshii', 'Fun'],
+    ],
+  },
+}
+
+export const VOCAB_CATEGORIES = Object.entries(RAW).map(([key, cat]) => ({
+  key,
+  label: cat.label,
+  icon: cat.icon,
+  words: cat.words.map(([kanji, kana, romaji, meaning]) => ({
+    id: `vocab:${kana}`,
+    kanji,
+    kana,
+    romaji,
+    meaning,
+    category: key,
+  })),
+}))
+
+export function vocabList(category = 'all') {
+  return VOCAB_CATEGORIES.filter((c) => category === 'all' || c.key === category).flatMap((c) => c.words)
+}

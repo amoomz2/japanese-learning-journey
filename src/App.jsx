@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Home from './pages/Home.jsx'
 import KanaChart from './pages/KanaChart.jsx'
+import Vocabulary from './pages/Vocabulary.jsx'
 import Practice from './pages/Practice.jsx'
 import Progress from './pages/Progress.jsx'
 import Journal from './pages/Journal.jsx'
@@ -8,14 +9,16 @@ import Journal from './pages/Journal.jsx'
 const PAGES = {
   home: { label: 'Home', component: Home },
   kana: { label: 'Kana', component: KanaChart },
+  vocab: { label: 'Vocabulary', component: Vocabulary },
   practice: { label: 'Practice', component: Practice },
   progress: { label: 'Progress', component: Progress },
   journal: { label: 'Study Log', component: Journal },
 }
 
 // Hash routing keeps deep links working on static hosts like GitHub Pages.
+// Optional query after the page name, e.g. #/practice?deck=vocab.
 function currentPage() {
-  const key = window.location.hash.replace('#/', '')
+  const key = window.location.hash.replace('#/', '').split('?')[0]
   return PAGES[key] ? key : 'home'
 }
 
