@@ -77,7 +77,10 @@ export default function App() {
       <main className="main">
         <Page go={go} />
       </main>
-      <footer className="footer muted small">がんばって! · Progress is stored in your browser.</footer>
+      <footer className="footer muted small">
+        <p>がんばって! · Progress is stored in your browser.</p>
+        <p className="credit">Developed by Omaima Al Hinai</p>
+      </footer>
     </div>
   )
 }
