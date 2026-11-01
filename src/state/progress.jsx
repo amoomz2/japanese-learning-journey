@@ -89,9 +89,12 @@ export function ProgressProvider({ children }) {
 
   const resetProgress = useCallback(() => setData((d) => ({ ...EMPTY, journal: d.journal })), [])
 
+  // Replaces everything with a validated backup (see src/backup/backup.js).
+  const replaceAll = useCallback((next) => setData({ ...EMPTY, ...next }), [])
+
   const value = useMemo(
-    () => ({ data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress }),
-    [data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress],
+    () => ({ data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll }),
+    [data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll],
   )
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>

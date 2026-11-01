@@ -232,6 +232,10 @@ button.chip { cursor: pointer; }
 .plain-list li { gap: 12px; align-items: baseline; }
 .plain-list li strong { text-align: right; }
 
+.backup-warning { color: #a8741a; font-weight: 500; font-size: 0.9rem; }
+.backup-ok { color: var(--success); margin: 12px 0 0; }
+.backup-error { color: var(--danger); margin: 12px 0 0; }
+
 /* iPhone: notch / home-indicator safe areas (viewport-fit=cover) */
 .nav { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
 .main { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }

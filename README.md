@@ -12,6 +12,7 @@ A personal website for learning Japanese, built with Vite and React.
 - **Quizzes**: 10-question multiple choice, kana → romaji and romaji → kana, with a review list of mistakes.
 - **Progress tracking**: daily streak, accuracy, kana and words learned, 4-week activity calendar, weakest characters.
 - **Study log**: journal entries with notes, minutes studied and mood; edit and delete supported.
+- **Backup**: save all progress and the study log to a `.json` file (share sheet on iPhone, download elsewhere) and restore it on any device. Restores are validated and confirmed first.
 
 Progress and journal entries are saved in the browser's `localStorage`.
 
