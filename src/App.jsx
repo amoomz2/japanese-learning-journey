@@ -5,7 +5,6 @@ import Vocabulary from './pages/Vocabulary.jsx'
 import Practice from './pages/Practice.jsx'
 import Progress from './pages/Progress.jsx'
 import Journal from './pages/Journal.jsx'
-import Coach from './pages/Coach.jsx'
 import { applyUpdate, useOfflineState, useOnline } from './pwa/offline.js'
 
 const PAGES = {
@@ -13,7 +12,6 @@ const PAGES = {
   kana: { label: 'Kana', component: KanaChart },
   vocab: { label: 'Vocabulary', component: Vocabulary },
   practice: { label: 'Practice', component: Practice },
-  coach: { label: 'AI Coach', component: Coach },
   progress: { label: 'Progress', component: Progress },
   journal: { label: 'Study Log', component: Journal },
 }
@@ -81,7 +79,9 @@ export default function App() {
       </main>
       <footer className="footer muted small">
         <p>がんばって! · Progress is stored in your browser.</p>
-        <p className="credit">Developed by Omaima Al Hinai</p>
+        <p className="credit">
+          Developed by Omaima Al Hinai · <span lang="ja">開発：オマイマ・アル・ヒナイ</span>
+        </p>
       </footer>
     </div>
   )
