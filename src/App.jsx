@@ -79,7 +79,9 @@ export default function App() {
       </main>
       <footer className="footer muted small">
         <p>がんばって! · Progress is stored in your browser.</p>
-        <p className="credit">Developed by Omaima Al Hinai</p>
+        <p className="credit">
+          Developed by Omaima Al Hinai · <span lang="ja">開発：オマイマ・アル・ヒナイ</span>
+        </p>
       </footer>
     </div>
   )
