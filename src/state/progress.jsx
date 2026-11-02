@@ -1,7 +1,11 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 const STORAGE_KEY = 'jlj-progress-v1'
-const EMPTY = { kana: {}, activeDays: [], journal: [], quizHistory: [] }
+const EMPTY_WRITING = { chars: {}, days: [], lessons: [] }
+const EMPTY = { kana: {}, activeDays: [], journal: [], quizHistory: [], writing: EMPTY_WRITING }
+
+// Writing: a character counts as learned once it has passed a Test-mode check.
+export const isWritingLearned = (stat) => Boolean(stat && stat.passed > 0)
 
 // A kana counts as learned after 3+ correct answers with at least 80% accuracy.
 export function isLearned(stat) {
@@ -13,7 +17,9 @@ export function isLearned(stat) {
 function load() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? { ...EMPTY, ...JSON.parse(raw) } : EMPTY
+    if (!raw) return EMPTY
+    const parsed = JSON.parse(raw)
+    return { ...EMPTY, ...parsed, writing: { ...EMPTY_WRITING, ...parsed.writing } }
   } catch {
     return EMPTY
   }
@@ -87,14 +93,34 @@ export function ProgressProvider({ children }) {
     setData((d) => ({ ...d, journal: d.journal.filter((e) => e.id !== id) }))
   }, [])
 
+  // kind: 'practice' | 'test'. Keeps per-character counts, best score and writing days.
+  const recordWriting = useCallback((char, kind, score, passed) => {
+    setData((d) => {
+      const today = todayKey()
+      const prev = d.writing.chars[char] || { practiced: 0, tests: 0, passed: 0, best: 0 }
+      const next = {
+        practiced: prev.practiced + (kind === 'practice' ? 1 : 0),
+        tests: prev.tests + (kind === 'test' ? 1 : 0),
+        passed: prev.passed + (kind === 'test' && passed ? 1 : 0),
+        best: Math.max(prev.best, score),
+      }
+      const days = d.writing.days.includes(today) ? d.writing.days : [...d.writing.days, today]
+      return { ...d, writing: { ...d.writing, chars: { ...d.writing.chars, [char]: next }, days }, activeDays: markActive(d) }
+    })
+  }, [])
+
+  const completeWritingLesson = useCallback((lessonId) => {
+    setData((d) => (d.writing.lessons.includes(lessonId) ? d : { ...d, writing: { ...d.writing, lessons: [...d.writing.lessons, lessonId] } }))
+  }, [])
+
   const resetProgress = useCallback(() => setData((d) => ({ ...EMPTY, journal: d.journal })), [])
 
   // Replaces everything with a validated backup (see src/backup/backup.js).
   const replaceAll = useCallback((next) => setData({ ...EMPTY, ...next }), [])
 
   const value = useMemo(
-    () => ({ data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll }),
-    [data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll],
+    () => ({ data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll, recordWriting, completeWritingLesson }),
+    [data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll, recordWriting, completeWritingLesson],
   )
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>

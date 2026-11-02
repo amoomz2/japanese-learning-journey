@@ -47,7 +47,22 @@ export function parseBackup(json) {
         }))
     : []
 
-  return { exportedAt: isDate(json.exportedAt) ? json.exportedAt : null, data: { kana, activeDays, quizHistory, journal } }
+  const w = isObject(d.writing) ? d.writing : {}
+  const writingChars = {}
+  if (isObject(w.chars)) {
+    for (const [ch, s] of Object.entries(w.chars)) {
+      if (typeof ch === 'string' && ch.length <= 2 && isObject(s) && isCount(s.practiced) && isCount(s.tests) && isCount(s.passed) && isCount(s.best)) {
+        writingChars[ch] = { practiced: s.practiced, tests: s.tests, passed: Math.min(s.passed, s.tests), best: Math.min(s.best, 100) }
+      }
+    }
+  }
+  const writing = {
+    chars: writingChars,
+    days: Array.isArray(w.days) ? [...new Set(w.days.filter(isDay))].sort() : [],
+    lessons: Array.isArray(w.lessons) ? [...new Set(w.lessons.filter((l) => typeof l === 'string' && /^[a-z]+-[a-z0-9]+$/.test(l)))] : [],
+  }
+
+  return { exportedAt: isDate(json.exportedAt) ? json.exportedAt : null, data: { kana, activeDays, quizHistory, journal, writing } }
 }
 
 export function summarize(data) {
@@ -56,6 +71,7 @@ export function summarize(data) {
     days: data.activeDays.length,
     quizzes: data.quizHistory.length,
     entries: data.journal.length,
+    written: Object.keys(data.writing?.chars || {}).length,
   }
 }
 
