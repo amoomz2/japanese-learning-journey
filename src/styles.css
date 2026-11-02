@@ -238,6 +238,64 @@ button.chip { cursor: pointer; }
 .backup-ok { color: var(--success); margin: 12px 0 0; }
 .backup-error { color: var(--danger); margin: 12px 0 0; }
 
+/* Writing practice */
+.lesson-list { margin-bottom: 12px; }
+.char-strip { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 12px; scrollbar-width: thin; }
+.char-pick {
+  flex: 0 0 auto; width: 52px; height: 52px; font-size: 1.6rem; font-family: inherit; border-radius: 12px;
+  border: 1px solid var(--border); background: var(--surface); cursor: pointer; position: relative;
+}
+.char-pick.active { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.char-pick.learned::after { content: '✓'; position: absolute; top: 1px; right: 4px; font-size: 0.7rem; color: var(--success); }
+.writing-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.writing-layout > .card { margin-bottom: 0; }
+.stroke-svg { display: block; width: 100%; height: auto; }
+.stroke-svg .grid rect { fill: none; stroke: var(--border); stroke-width: 0.8; }
+.stroke-svg .grid line { stroke: var(--border); stroke-width: 0.6; stroke-dasharray: 2 2; }
+.stroke-svg .stroke { fill: none; stroke-width: 3.6; stroke-linecap: round; stroke-linejoin: round; }
+.stroke-svg .stroke.done { stroke: var(--text); }
+.stroke-svg .stroke.current { stroke: var(--accent); stroke-width: 4.2; }
+.stroke-svg .stroke.todo { stroke: var(--border); }
+.stroke-svg .stroke.faint { stroke: var(--text); opacity: 0.13; }
+.stroke-svg .stroke.hint { stroke: var(--accent); opacity: 0.45; stroke-width: 4.2; }
+.stroke-svg .stroke.drawing { animation-name: draw-stroke; animation-timing-function: ease-in-out; animation-fill-mode: forwards; }
+@keyframes draw-stroke { to { stroke-dashoffset: 0; } }
+.stroke-svg .stroke-number { font-size: 5.5px; fill: var(--muted); font-family: system-ui, sans-serif; font-weight: 600; }
+.stroke-svg .stroke-arrow circle { fill: var(--accent); }
+.stroke-svg .stroke-arrow path { fill: var(--accent); }
+.stroke-order .stroke-svg.big { max-width: 300px; margin: 0 auto; background: var(--bg); border-radius: 12px; }
+.writing-pad {
+  position: relative; width: min(100%, 340px); aspect-ratio: 1; margin: 8px auto 0;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+}
+.writing-pad .pad-guide { position: absolute; inset: 0; pointer-events: none; }
+.pad-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; cursor: crosshair;
+}
+.char-info .char-head { display: flex; gap: 16px; align-items: center; margin-bottom: 8px; }
+.char-big { font-size: 4.5rem; line-height: 1; font-weight: 500; }
+.char-romaji { font-size: 1.5rem; display: block; }
+.arabic { font-family: 'Noto Sans Arabic', 'Segoe UI', Tahoma, sans-serif; font-size: 1.05rem; line-height: 1.9; background: var(--bg); padding: 8px 12px; border-radius: 10px; }
+.example-word { font-size: 1.15rem; }
+.example-meaning { display: inline-flex; align-items: center; gap: 4px; text-align: right; }
+.stroke-tip { margin: 10px 0 0; font-weight: 500; }
+.stroke-tip.ok { color: var(--success); }
+.stroke-tip.bad { color: var(--danger); }
+.write-result { text-align: left; margin: 12px auto 0; max-width: 340px; padding: 10px 14px; border-radius: 12px; }
+.write-result.pass { background: var(--success-soft); }
+.write-result.fail { background: var(--danger-soft); }
+.write-result ul { margin: 6px 0 0; padding-left: 18px; }
+.hint-list { margin: 0 0 12px; padding-left: 18px; display: grid; gap: 6px; }
+.mini-order { max-width: 180px; margin: 0 auto; }
+.test-prompt { font-size: 1.8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.answer-char { font-size: 1.6rem; color: var(--text); }
+.chip-pass { border-color: var(--success); }
+.chip-fail { border-color: var(--danger); background: var(--danger-soft); }
+.attribution { margin-top: 24px; text-align: center; }
+.stat-grid.compact { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+@media (max-width: 720px) { .writing-layout { grid-template-columns: 1fr; } }
+
 /* iPhone: notch / home-indicator safe areas (viewport-fit=cover) */
 .nav { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
 .main { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }

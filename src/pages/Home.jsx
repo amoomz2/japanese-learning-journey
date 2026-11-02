@@ -49,6 +49,7 @@ export default function Home({ go }) {
           ['kana', 'あ', 'Kana charts', 'Hiragana and katakana with pronunciation.'],
           ['vocab', '語', 'Vocabulary', 'Everyday beginner words, grouped by topic.'],
           ['practice', '練', 'Flashcards & quizzes', 'Drill kana and words, then test yourself.'],
+          ['writing', '書', 'Writing practice', 'Stroke order, tracing and writing tests.'],
           ['progress', '進', 'Progress', 'Streaks, accuracy and your weak spots.'],
           ['journal', '記', 'Study log', 'Write down milestones along the way.'],
         ].map(([page, icon, title, text]) => (

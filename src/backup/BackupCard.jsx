@@ -5,7 +5,7 @@ import { lastBackupDate, parseBackup, saveBackup, summarize } from './backup.js'
 const STALE_DAYS = 14
 
 function describe(s) {
-  return `${s.items} practised items, ${s.days} study days, ${s.quizzes} quizzes, ${s.entries} log entries`
+  return `${s.items} practised items, ${s.written} written characters, ${s.days} study days, ${s.quizzes} quizzes, ${s.entries} log entries`
 }
 
 export default function BackupCard() {
@@ -15,7 +15,7 @@ export default function BackupCard() {
   const [message, setMessage] = useState(null)
 
   const current = summarize(data)
-  const hasData = current.items + current.entries + current.quizzes > 0
+  const hasData = current.items + current.entries + current.quizzes + current.written > 0
   const daysSince = lastBackup ? Math.floor((Date.now() - lastBackup.getTime()) / 86400000) : null
   const needsBackup = hasData && (daysSince === null || daysSince >= STALE_DAYS)
 

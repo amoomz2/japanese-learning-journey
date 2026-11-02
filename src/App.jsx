@@ -5,6 +5,7 @@ import Vocabulary from './pages/Vocabulary.jsx'
 import Practice from './pages/Practice.jsx'
 import Progress from './pages/Progress.jsx'
 import Journal from './pages/Journal.jsx'
+import Writing from './pages/Writing.jsx'
 import { applyUpdate, useOfflineState, useOnline } from './pwa/offline.js'
 
 const PAGES = {
@@ -12,6 +13,7 @@ const PAGES = {
   kana: { label: 'Kana', component: KanaChart },
   vocab: { label: 'Vocabulary', component: Vocabulary },
   practice: { label: 'Practice', component: Practice },
+  writing: { label: 'Writing', component: Writing },
   progress: { label: 'Progress', component: Progress },
   journal: { label: 'Study Log', component: Journal },
 }
