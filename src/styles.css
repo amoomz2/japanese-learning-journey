@@ -143,6 +143,13 @@ body.menu-open { overflow: hidden; }
 /* Skills dropdown (desktop) */
 .nav-dropdown { position: relative; }
 .nav-trigger { border: 0; background: none; font: inherit; font-weight: 500; font-size: 0.95rem; gap: 6px; cursor: pointer; }
+.nav-split { display: inline-flex; align-items: center; }
+.nav-split-link { padding-right: 4px !important; }
+.nav-split-link::after { right: 4px !important; }
+.nav-trigger { padding: 0 8px !important; }
+.menu-heading { display: flex; justify-content: space-between; align-items: center; }
+.menu-all { text-transform: none; letter-spacing: 0; font-size: 0.85rem; color: var(--accent); text-decoration: none; padding: 6px 4px; }
+.menu-all:hover { text-decoration: underline; }
 .nav-trigger .chevron { transition: transform 0.2s; }
 .nav-trigger[aria-expanded='true'] .chevron { transform: rotate(180deg); }
 .nav-trigger[aria-expanded='true'] { color: var(--text); background: color-mix(in srgb, var(--accent-soft) 55%, transparent); }

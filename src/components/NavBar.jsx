@@ -97,18 +97,28 @@ export default function NavBar({ pages, current, offline }) {
               {gi > 0 && <span className="nav-divider" aria-hidden="true" />}
               {g.key === 'skills' ? (
                 <div className="nav-dropdown" ref={skillsRef}>
-                  <button
-                    type="button"
-                    className={`nav-link topnav nav-trigger ${g.items.some(([k]) => k === current) ? 'active' : ''}`}
-                    aria-expanded={skillsOpen}
-                    aria-controls={skillsId}
-                    onClick={() => setSkillsOpen((o) => !o)}
-                  >
-                    Skills
-                    <svg className="chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-                      <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
+                  <div className="nav-split">
+                    <a
+                      href="#/skills"
+                      className={`nav-link topnav nav-split-link ${current === 'skills' || g.items.some(([k]) => k === current) ? 'active' : ''}`}
+                      aria-current={current === 'skills' ? 'page' : undefined}
+                      onClick={() => setSkillsOpen(false)}
+                    >
+                      Skills
+                    </a>
+                    <button
+                      type="button"
+                      className="nav-link topnav nav-trigger"
+                      aria-label="Show skill pages"
+                      aria-expanded={skillsOpen}
+                      aria-controls={skillsId}
+                      onClick={() => setSkillsOpen((o) => !o)}
+                    >
+                      <svg className="chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                        <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                  </div>
                   <ul id={skillsId} className="dropdown-list" hidden={!skillsOpen} aria-label="Skills">
                     {g.items.map((item) => (
                       <li key={item[0]}>{link(item, 'dropdown')}</li>
@@ -154,7 +164,14 @@ export default function NavBar({ pages, current, offline }) {
         </a>
         {grouped.map((g) => (
           <section key={g.key} className="menu-group" aria-label={g.title}>
-            <h2 className="menu-heading">{g.title}</h2>
+            <h2 className="menu-heading">
+              {g.title}
+              {g.key === 'skills' && (
+                <a href="#/skills" className="menu-all" onClick={() => setOpen(false)}>
+                  All skills
+                </a>
+              )}
+            </h2>
             <ul>
               {g.items.map((item) => (
                 <li key={item[0]}>{link(item, 'menu')}</li>
