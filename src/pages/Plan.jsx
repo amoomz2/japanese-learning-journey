@@ -35,7 +35,7 @@ export default function Plan({ go }) {
       <header className="page-header">
         <h1>計画 Study plan</h1>
         <p className="muted">
-          One hour a day: two skills, {SLOT_MINUTES} minutes each. Every skill gets three sessions a week; Sunday is a light review.
+          One hour a day: two skills, {SLOT_MINUTES} minutes each. Every skill gets three sessions a week; Sunday is a light review. A session ticks itself when you finish an exercise in that skill; you can also tick or untick it by hand.
         </p>
       </header>
 

@@ -1,5 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
+import { WEEK } from '../data/plan.js'
+
 const STORAGE_KEY = 'jlj-progress-v1'
 const EMPTY_WRITING = { chars: {}, days: [], lessons: [] }
 const EMPTY_READING = { items: {}, days: [] }
@@ -67,6 +69,15 @@ export function computeStreak(activeDays) {
   return streak
 }
 
+// Study plan: finishing an exercise in a skill ticks that skill's session for today, if today's plan has it.
+function autoPlan(d, slot) {
+  const today = todayKey()
+  const day = WEEK[(new Date().getDay() + 6) % 7]
+  const cur = d.plan.done[today] || []
+  if (!day.skills.includes(slot) || cur.includes(slot)) return d.plan
+  return { done: { ...d.plan.done, [today]: [...cur, slot] } }
+}
+
 const ProgressContext = createContext(null)
 
 export function ProgressProvider({ children }) {
@@ -89,7 +100,7 @@ export function ProgressProvider({ children }) {
     setData((d) => {
       const prev = d.kana[id] || { correct: 0, wrong: 0 }
       const next = { ...prev, [correct ? 'correct' : 'wrong']: prev[correct ? 'correct' : 'wrong'] + 1 }
-      return { ...d, kana: { ...d.kana, [id]: next }, activeDays: markActive(d) }
+      return { ...d, kana: { ...d.kana, [id]: next }, activeDays: markActive(d), plan: autoPlan(d, 'flash') }
     })
   }, [])
 
@@ -98,6 +109,7 @@ export function ProgressProvider({ children }) {
       ...d,
       quizHistory: [{ ...result, date: new Date().toISOString() }, ...d.quizHistory].slice(0, 50),
       activeDays: markActive(d),
+      plan: autoPlan(d, 'flash'),
     }))
   }, [])
 
@@ -129,7 +141,7 @@ export function ProgressProvider({ children }) {
         best: Math.max(prev.best, score),
       }
       const days = d.writing.days.includes(today) ? d.writing.days : [...d.writing.days, today]
-      return { ...d, writing: { ...d.writing, chars: { ...d.writing.chars, [char]: next }, days }, activeDays: markActive(d) }
+      return { ...d, writing: { ...d.writing, chars: { ...d.writing.chars, [char]: next }, days }, activeDays: markActive(d), plan: autoPlan(d, 'writing') }
     })
   }, [])
 
@@ -143,7 +155,7 @@ export function ProgressProvider({ children }) {
           ? { ...prev, reads: prev.reads + 1, bestCpm: Math.max(prev.bestCpm, value), lastCpm: value }
           : { ...prev, attempts: prev.attempts + 1, best: { ...prev.best, [kind]: Math.max(prev.best[kind] || 0, value) } }
       const days = d.reading.days.includes(today) ? d.reading.days : [...d.reading.days, today]
-      return { ...d, reading: { items: { ...d.reading.items, [id]: next }, days }, activeDays: markActive(d) }
+      return { ...d, reading: { items: { ...d.reading.items, [id]: next }, days }, activeDays: markActive(d), plan: autoPlan(d, 'reading') }
     })
   }, [])
 
@@ -155,7 +167,7 @@ export function ProgressProvider({ children }) {
       const prev = state.items[id] || { attempts: 0, best: {} }
       const next = { attempts: prev.attempts + 1, best: { ...prev.best, [kind]: Math.max(prev.best[kind] || 0, value) } }
       const days = state.days.includes(today) ? state.days : [...state.days, today]
-      return { ...d, [skill]: { items: { ...state.items, [id]: next }, days }, activeDays: markActive(d) }
+      return { ...d, [skill]: { items: { ...state.items, [id]: next }, days }, activeDays: markActive(d), plan: autoPlan(d, skill) }
     })
   }, [])
 
