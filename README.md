@@ -2,8 +2,6 @@
 
 A personal website for learning Japanese, built with Vite and React.
 
-**Live site:** https://amoomz2.github.io/japanese-learning-journey/ (deployed automatically from `main` by GitHub Actions).
-
 ## Features
 
 - **Kana charts**: hiragana and katakana (basic + dakuten/handakuten) with tap-to-hear pronunciation.
