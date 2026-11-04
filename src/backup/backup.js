@@ -88,9 +88,17 @@ export function parseBackup(json) {
     return { items, days: Array.isArray(s.days) ? [...new Set(s.days.filter(isDay))].sort() : [] }
   }
 
+  const planDone = {}
+  const pd = isObject(d.plan) && isObject(d.plan.done) ? d.plan.done : {}
+  for (const [day, slots] of Object.entries(pd)) {
+    if (!isDay(day) || !Array.isArray(slots)) continue
+    const ok = [...new Set(slots.filter((x) => typeof x === 'string' && /^[a-z]{3,12}$/.test(x)))].slice(0, 6)
+    if (ok.length) planDone[day] = ok
+  }
+
   return {
     exportedAt: isDate(json.exportedAt) ? json.exportedAt : null,
-    data: { kana, activeDays, quizHistory, journal, writing, reading, listening: skill(d.listening), speaking: skill(d.speaking) },
+    data: { kana, activeDays, quizHistory, journal, writing, reading, listening: skill(d.listening), speaking: skill(d.speaking), plan: { done: planDone } },
   }
 }
 
@@ -104,6 +112,7 @@ export function summarize(data) {
     read: Object.keys(data.reading?.items || {}).length,
     listened: Object.keys(data.listening?.items || {}).length,
     spoken: Object.keys(data.speaking?.items || {}).length,
+    planned: Object.values(data.plan?.done || {}).reduce((n, a) => n + a.length, 0),
   }
 }
 

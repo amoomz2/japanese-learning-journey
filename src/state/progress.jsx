@@ -14,6 +14,7 @@ const EMPTY = {
   reading: EMPTY_READING,
   listening: EMPTY_SKILL,
   speaking: EMPTY_SKILL,
+  plan: { done: {} }, // study plan: date -> ids of finished sessions
 }
 
 // Reading: per dialogue, reads/best speed (characters per minute) and best % per exercise type.
@@ -41,6 +42,7 @@ function load() {
       reading: { ...EMPTY_READING, ...parsed.reading },
       listening: { ...EMPTY_SKILL, ...parsed.listening },
       speaking: { ...EMPTY_SKILL, ...parsed.speaking },
+      plan: { done: { ...parsed.plan?.done } },
     }
   } catch {
     return EMPTY
@@ -157,6 +159,16 @@ export function ProgressProvider({ children }) {
     })
   }, [])
 
+  const togglePlan = useCallback((date, slot) => {
+    setData((d) => {
+      const cur = d.plan.done[date] || []
+      const next = cur.includes(slot) ? cur.filter((x) => x !== slot) : [...cur, slot]
+      const done = { ...d.plan.done, [date]: next }
+      if (!next.length) delete done[date]
+      return { ...d, plan: { done } }
+    })
+  }, [])
+
   const completeWritingLesson = useCallback((lessonId) => {
     setData((d) => (d.writing.lessons.includes(lessonId) ? d : { ...d, writing: { ...d.writing, lessons: [...d.writing.lessons, lessonId] } }))
   }, [])
@@ -167,8 +179,8 @@ export function ProgressProvider({ children }) {
   const replaceAll = useCallback((next) => setData({ ...EMPTY, ...next }), [])
 
   const value = useMemo(
-    () => ({ data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll, recordWriting, completeWritingLesson, recordReading, recordSkill }),
-    [data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll, recordWriting, completeWritingLesson, recordReading, recordSkill],
+    () => ({ data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll, recordWriting, completeWritingLesson, recordReading, recordSkill, togglePlan }),
+    [data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll, recordWriting, completeWritingLesson, recordReading, recordSkill, togglePlan],
   )
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>
