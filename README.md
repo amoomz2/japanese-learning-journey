@@ -13,6 +13,7 @@ A personal website for learning Japanese, built with Vite and React.
 - **Progress tracking**: daily streak, accuracy, kana and words learned, 4-week activity calendar, weakest characters.
 - **Study log**: journal entries with notes, minutes studied and mood; edit and delete supported.
 - **Writing practice (書き方)**: 176 characters (71 hiragana, 71 katakana, 34 beginner kanji) in 34 lessons. Learn mode animates the stroke order (start dot, direction arrow, numbers, step-by-step); Practice mode lets you trace on a canvas with finger, stylus or mouse, with stroke-by-stroke hints, undo and clear; Test mode shows the romaji/meaning and checks what you write from memory. Each character has romaji, an English and an Arabic pronunciation/meaning note, stroke count and example words with audio.
+- **Reading (読む)**: JLPT N5 reading built on *Beginning Japanese for Professionals: Book 1* (Lessons 0–4, 19 dialogues). Furigana, romaji, English and Arabic toggles; reading-speed timing; comprehension (original questions), fill-in-the-blank and kanji-reading exercises generated from the textbook lines; book page references. N4–N1 are listed as "coming later".
 - **Backup**: save all progress and the study log to a `.json` file (share sheet on iPhone, download elsewhere) and restore it on any device. Restores are validated and confirmed first.
 
 Progress and journal entries are saved in the browser's `localStorage`.
@@ -34,6 +35,10 @@ Icons are generated from `public/icon.svg` with `npm run icons`.
 
 - **Stroke-order data** comes from [KanjiVG](https://kanjivg.tagaini.net) © Ulrich Apel, licensed CC BY-SA 3.0, pinned to commit `70a0b7a`. `npm run strokes` (scripts/build-strokes.mjs) regenerates `src/data/strokes.json`; the data is bundled, so it works offline.
 - **How writing is checked** (src/writing/evaluate.js): this is a stroke-matching check, not full handwriting recognition. Your drawing is resized onto the reference, then each stroke is resampled and compared with the expected KanjiVG stroke in order: shape and position, direction, order (a stroke that fits a different stroke better) and stroke count. 65% or more passes; a wrong stroke count or a reversed stroke can't pass. It runs on the device, so it works offline. It can't judge neatness or stroke endings (tome/hane/harai), and very similar characters written with the right strokes may score close to each other.
+
+## Textbook source
+
+Course content in `src/data/book1.js` comes from **Emiko Konomi, _Beginning Japanese for Professionals: Book 1_ (Portland State University, 2018)**, https://pdxscholar.library.pdx.edu/pdxopen/6, licensed [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Used non-commercially with attribution. Changes: furigana markup, minor typo fixes in the English, and generated exercises. The Arabic translations and comprehension questions are original to this site and are labelled as such in the app.
 
 ## Getting started
 
