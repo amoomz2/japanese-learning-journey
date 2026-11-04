@@ -140,10 +140,26 @@ a { color: inherit; }
 .nav-link.menu.active .nav-icon { background: var(--surface); }
 body.menu-open { overflow: hidden; }
 
+/* Skills dropdown (desktop) */
+.nav-dropdown { position: relative; }
+.nav-trigger { border: 0; background: none; font: inherit; font-weight: 500; font-size: 0.95rem; gap: 6px; cursor: pointer; }
+.nav-trigger .chevron { transition: transform 0.2s; }
+.nav-trigger[aria-expanded='true'] .chevron { transform: rotate(180deg); }
+.nav-trigger[aria-expanded='true'] { color: var(--text); background: color-mix(in srgb, var(--accent-soft) 55%, transparent); }
+.nav-row .dropdown-list {
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 3; min-width: 190px; display: block; padding: 6px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 12px 32px rgb(40 20 30 / 14%);
+}
+.nav-row .dropdown-list[hidden] { display: none; }
+.nav-link.dropdown { display: flex; align-items: center; min-height: 40px; padding: 0 12px; border-radius: 8px; color: var(--text); white-space: nowrap; }
+.nav-link.dropdown:hover { background: var(--bg); }
+.nav-link.dropdown.active { background: var(--accent-soft); color: var(--accent); }
+
 /* Large desktop: full spacing. Mid widths: tighter. Below 1024 px: Menu button. */
 @media (max-width: 1199px) {
   .nav { --nav-pad: 16px; gap: 10px; }
   .nav-link.topnav { padding: 0 8px; font-size: 0.9rem; }
+  .nav-trigger { font-size: 0.9rem; }
   .nav-link.topnav::after { left: 8px; right: 8px; }
   .nav-divider { margin: 0 4px; }
 }
@@ -464,6 +480,7 @@ body { overflow-x: clip; -webkit-tap-highlight-color: transparent; }
   .btn, .segmented button, .chip, .mood, .toolbar select { min-height: 44px; }
   .segmented button { display: inline-flex; align-items: center; }
   .nav-link.topnav { height: 44px; }
+  .nav-link.dropdown { min-height: 44px; }
   .toggle { min-height: 44px; }
   .toggle input { width: 20px; height: 20px; }
   input, select, textarea { font-size: 16px; }
