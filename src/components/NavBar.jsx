@@ -4,12 +4,15 @@ import { useEffect, useId, useRef, useState } from 'react'
 // opens a grouped panel. `pages` is App's page table; each entry may have `group` and `icon`.
 const GROUPS = [
   ['learn', 'Learn'],
-  ['skills', 'Four skills'],
+  ['skills', 'Skills'],
   ['you', 'Your journey'],
 ]
 
 export default function NavBar({ pages, current, offline }) {
   const [open, setOpen] = useState(false)
+  const [skillsOpen, setSkillsOpen] = useState(false)
+  const skillsRef = useRef(null)
+  const skillsId = useId()
   const buttonRef = useRef(null)
   const panelRef = useRef(null)
   const panelId = useId()
@@ -19,7 +22,30 @@ export default function NavBar({ pages, current, offline }) {
   const currentLabel = pages[current]?.label
 
   // Close when the page changes.
-  useEffect(() => setOpen(false), [current])
+  useEffect(() => {
+    setOpen(false)
+    setSkillsOpen(false)
+  }, [current])
+
+  // Skills dropdown (desktop): close on outside click or Escape.
+  useEffect(() => {
+    if (!skillsOpen) return
+    const onDown = (e) => {
+      if (!skillsRef.current?.contains(e.target)) setSkillsOpen(false)
+    }
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setSkillsOpen(false)
+        skillsRef.current?.querySelector('button')?.focus()
+      }
+    }
+    document.addEventListener('pointerdown', onDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('pointerdown', onDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [skillsOpen])
 
   useEffect(() => {
     if (!open) return
@@ -69,11 +95,33 @@ export default function NavBar({ pages, current, offline }) {
           {grouped.map((g, gi) => (
             <li key={g.key} className="nav-group">
               {gi > 0 && <span className="nav-divider" aria-hidden="true" />}
-              <ul aria-label={g.title}>
-                {g.items.map((item) => (
-                  <li key={item[0]}>{link(item, 'topnav')}</li>
-                ))}
-              </ul>
+              {g.key === 'skills' ? (
+                <div className="nav-dropdown" ref={skillsRef}>
+                  <button
+                    type="button"
+                    className={`nav-link topnav nav-trigger ${g.items.some(([k]) => k === current) ? 'active' : ''}`}
+                    aria-expanded={skillsOpen}
+                    aria-controls={skillsId}
+                    onClick={() => setSkillsOpen((o) => !o)}
+                  >
+                    Skills
+                    <svg className="chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                      <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                  <ul id={skillsId} className="dropdown-list" hidden={!skillsOpen} aria-label="Skills">
+                    {g.items.map((item) => (
+                      <li key={item[0]}>{link(item, 'dropdown')}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <ul aria-label={g.title}>
+                  {g.items.map((item) => (
+                    <li key={item[0]}>{link(item, 'topnav')}</li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>
