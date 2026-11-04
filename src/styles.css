@@ -499,3 +499,15 @@ body { overflow-x: clip; -webkit-tap-highlight-color: transparent; }
   .card { padding: 16px; }
   .calendar { grid-template-columns: repeat(7, 1fr); }
 }
+
+/* Study plan (pages/Plan.jsx) */
+.plan-week { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+.plan-week-label { display: flex; flex-direction: column; flex: 1 1 160px; text-align: center; }
+.plan-days { display: grid; gap: 12px; }
+.plan-day.today { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.plan-slots { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.plan-slot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.plan-check { display: flex; align-items: flex-start; gap: 12px; flex: 1; min-height: 44px; cursor: pointer; }
+.plan-check input { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--accent); flex: 0 0 auto; }
+.plan-text { display: flex; flex-direction: column; gap: 2px; }
+.plan-slot.done .plan-text strong { text-decoration: line-through; color: var(--muted); }

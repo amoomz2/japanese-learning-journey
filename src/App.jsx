@@ -9,6 +9,7 @@ import Writing from './pages/Writing.jsx'
 import Reading from './pages/Reading.jsx'
 import Listening from './pages/Listening.jsx'
 import Speaking from './pages/Speaking.jsx'
+import Plan from './pages/Plan.jsx'
 import Skills from './pages/Skills.jsx'
 import NavBar from './components/NavBar.jsx'
 import { applyUpdate, useOfflineState, useOnline } from './pwa/offline.js'
@@ -25,6 +26,7 @@ const PAGES = {
   speaking: { label: 'Speaking', component: Speaking, group: 'skills', icon: '話' },
   skills: { label: 'Skills', component: Skills },
   progress: { label: 'Progress', component: Progress, group: 'you', icon: '進' },
+  plan: { label: 'Plan', component: Plan, group: 'you', icon: '計' },
   journal: { label: 'Study Log', component: Journal, group: 'you', icon: '記' },
 }
 

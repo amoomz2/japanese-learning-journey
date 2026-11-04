@@ -15,7 +15,7 @@ export default function BackupCard() {
   const [message, setMessage] = useState(null)
 
   const current = summarize(data)
-  const hasData = current.items + current.entries + current.quizzes + current.written + current.read + current.listened + current.spoken > 0
+  const hasData = current.items + current.entries + current.quizzes + current.written + current.read + current.listened + current.spoken + current.planned > 0
   const daysSince = lastBackup ? Math.floor((Date.now() - lastBackup.getTime()) / 86400000) : null
   const needsBackup = hasData && (daysSince === null || daysSince >= STALE_DAYS)
 

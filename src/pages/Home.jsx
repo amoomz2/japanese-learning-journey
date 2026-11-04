@@ -54,6 +54,7 @@ export default function Home({ go }) {
           ['listening', '聞', 'Listening', 'Native textbook audio, dictation and listening quizzes.'],
           ['speaking', '話', 'Speaking', 'Shadowing, recording yourself and role-plays.'],
           ['skills', '技', 'Four skills', 'Your writing, reading, listening and speaking at a glance.'],
+          ['plan', '計', 'Study plan', 'One hour a day: two skills, 30 minutes each.'],
           ['progress', '進', 'Progress', 'Streaks, accuracy and your weak spots.'],
           ['journal', '記', 'Study log', 'Write down milestones along the way.'],
         ].map(([page, icon, title, text]) => (
