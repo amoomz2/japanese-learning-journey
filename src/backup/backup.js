@@ -62,7 +62,36 @@ export function parseBackup(json) {
     lessons: Array.isArray(w.lessons) ? [...new Set(w.lessons.filter((l) => typeof l === 'string' && /^[a-z]+-[a-z0-9]+$/.test(l)))] : [],
   }
 
-  return { exportedAt: isDate(json.exportedAt) ? json.exportedAt : null, data: { kana, activeDays, quizHistory, journal, writing } }
+  const r = isObject(d.reading) ? d.reading : {}
+  const readingItems = {}
+  if (isObject(r.items)) {
+    for (const [id, s] of Object.entries(r.items)) {
+      if (!/^L\d+-\d+$/.test(id) || !isObject(s) || !isCount(s.reads) || !isCount(s.bestCpm) || !isCount(s.attempts)) continue
+      const best = {}
+      if (isObject(s.best)) for (const k of ['quiz', 'fill', 'kanji']) if (isCount(s.best[k])) best[k] = Math.min(s.best[k], 100)
+      readingItems[id] = { reads: s.reads, bestCpm: Math.min(s.bestCpm, 5000), attempts: s.attempts, best, ...(isCount(s.lastCpm) ? { lastCpm: Math.min(s.lastCpm, 5000) } : {}) }
+    }
+  }
+  const reading = { items: readingItems, days: Array.isArray(r.days) ? [...new Set(r.days.filter(isDay))].sort() : [] }
+
+  const skill = (raw) => {
+    const s = isObject(raw) ? raw : {}
+    const items = {}
+    if (isObject(s.items)) {
+      for (const [id, v] of Object.entries(s.items)) {
+        if (!/^[A-Za-z0-9-]{1,40}$/.test(id) || !isObject(v) || !isCount(v.attempts)) continue
+        const best = {}
+        if (isObject(v.best)) for (const [k, n] of Object.entries(v.best)) if (/^[a-z]{1,20}$/.test(k) && isCount(n)) best[k] = Math.min(n, 100)
+        items[id] = { attempts: v.attempts, best }
+      }
+    }
+    return { items, days: Array.isArray(s.days) ? [...new Set(s.days.filter(isDay))].sort() : [] }
+  }
+
+  return {
+    exportedAt: isDate(json.exportedAt) ? json.exportedAt : null,
+    data: { kana, activeDays, quizHistory, journal, writing, reading, listening: skill(d.listening), speaking: skill(d.speaking) },
+  }
 }
 
 export function summarize(data) {
@@ -72,6 +101,9 @@ export function summarize(data) {
     quizzes: data.quizHistory.length,
     entries: data.journal.length,
     written: Object.keys(data.writing?.chars || {}).length,
+    read: Object.keys(data.reading?.items || {}).length,
+    listened: Object.keys(data.listening?.items || {}).length,
+    spoken: Object.keys(data.speaking?.items || {}).length,
   }
 }
 

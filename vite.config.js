@@ -49,6 +49,17 @@ export default defineConfig({
               expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 365 },
             },
           },
+          {
+            // Textbook audio: saved per lesson from the Listening page ("Save audio for offline").
+            // Range requests are served from the cached file so audio seeking works offline on iPhone.
+            urlPattern: ({ url }) => url.pathname.includes('/audio/'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'jlj-audio',
+              rangeRequests: true,
+              cacheableResponse: { statuses: [200] },
+            },
+          },
         ],
       },
     }),

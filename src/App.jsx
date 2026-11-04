@@ -6,6 +6,10 @@ import Practice from './pages/Practice.jsx'
 import Progress from './pages/Progress.jsx'
 import Journal from './pages/Journal.jsx'
 import Writing from './pages/Writing.jsx'
+import Reading from './pages/Reading.jsx'
+import Listening from './pages/Listening.jsx'
+import Speaking from './pages/Speaking.jsx'
+import Skills from './pages/Skills.jsx'
 import { applyUpdate, useOfflineState, useOnline } from './pwa/offline.js'
 
 const PAGES = {
@@ -14,6 +18,10 @@ const PAGES = {
   vocab: { label: 'Vocabulary', component: Vocabulary },
   practice: { label: 'Practice', component: Practice },
   writing: { label: 'Writing', component: Writing },
+  reading: { label: 'Reading', component: Reading },
+  listening: { label: 'Listening', component: Listening },
+  speaking: { label: 'Speaking', component: Speaking },
+  skills: { label: 'Four skills', component: Skills },
   progress: { label: 'Progress', component: Progress },
   journal: { label: 'Study Log', component: Journal },
 }

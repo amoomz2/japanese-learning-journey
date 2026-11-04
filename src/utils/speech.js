@@ -14,12 +14,12 @@ if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
 
 export const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window
 
-export function speak(text) {
+export function speak(text, rate = 0.8) {
   if (!canSpeak) return
   window.speechSynthesis.cancel()
   const u = new SpeechSynthesisUtterance(text)
   u.lang = 'ja-JP'
-  u.rate = 0.8
+  u.rate = rate
   const voice = jaVoice || pickVoice()
   if (voice) u.voice = voice
   window.speechSynthesis.speak(u)
