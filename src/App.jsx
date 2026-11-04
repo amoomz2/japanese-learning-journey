@@ -10,20 +10,22 @@ import Reading from './pages/Reading.jsx'
 import Listening from './pages/Listening.jsx'
 import Speaking from './pages/Speaking.jsx'
 import Skills from './pages/Skills.jsx'
+import NavBar from './components/NavBar.jsx'
 import { applyUpdate, useOfflineState, useOnline } from './pwa/offline.js'
 
+// `group` and `icon` place a page in the navigation (see components/NavBar.jsx).
 const PAGES = {
   home: { label: 'Home', component: Home },
-  kana: { label: 'Kana', component: KanaChart },
-  vocab: { label: 'Vocabulary', component: Vocabulary },
-  practice: { label: 'Practice', component: Practice },
-  writing: { label: 'Writing', component: Writing },
-  reading: { label: 'Reading', component: Reading },
-  listening: { label: 'Listening', component: Listening },
-  speaking: { label: 'Speaking', component: Speaking },
-  skills: { label: 'Four skills', component: Skills },
-  progress: { label: 'Progress', component: Progress },
-  journal: { label: 'Study Log', component: Journal },
+  kana: { label: 'Kana', component: KanaChart, group: 'learn', icon: 'あ' },
+  vocab: { label: 'Vocabulary', component: Vocabulary, group: 'learn', icon: '語' },
+  practice: { label: 'Practice', component: Practice, group: 'learn', icon: '練' },
+  writing: { label: 'Writing', component: Writing, group: 'skills', icon: '書' },
+  reading: { label: 'Reading', component: Reading, group: 'skills', icon: '読' },
+  listening: { label: 'Listening', component: Listening, group: 'skills', icon: '聞' },
+  speaking: { label: 'Speaking', component: Speaking, group: 'skills', icon: '話' },
+  skills: { label: 'Four skills', component: Skills, group: 'skills', icon: '技' },
+  progress: { label: 'Progress', component: Progress, group: 'you', icon: '進' },
+  journal: { label: 'Study Log', component: Journal, group: 'you', icon: '記' },
 }
 
 // Hash routing keeps deep links working on static hosts like GitHub Pages.
@@ -63,27 +65,7 @@ export default function App() {
           </button>
         </div>
       )}
-      <nav className="nav">
-        <div>
-          <a href="#/home" className="brand">
-            🌸 <span>日本語 Journey</span>
-          </a>
-          {!online && (
-            <span className="offline-badge" role="status">
-              Offline
-            </span>
-          )}
-        </div>
-        <div className="nav-links">
-          {Object.entries(PAGES)
-            .filter(([key]) => key !== 'home')
-            .map(([key, p]) => (
-              <a key={key} href={`#/${key}`} className={page === key ? 'active' : ''} aria-current={page === key ? 'page' : undefined}>
-                {p.label}
-              </a>
-            ))}
-        </div>
-      </nav>
+      <NavBar pages={PAGES} current={page} offline={!online} />
       <main className="main">
         <Page go={go} />
       </main>
