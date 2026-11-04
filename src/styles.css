@@ -333,6 +333,38 @@ details.card[open] summary { margin-bottom: 8px; }
   .vocab-table li > :last-child { grid-column: 1 / -1; }
 }
 
+/* Listening */
+.download-row { margin: 4px 0 8px; }
+.listen-lines li { grid-template-columns: 84px 1fr; }
+.listen-line { display: flex; gap: 10px; align-items: flex-start; }
+.listen-line > .btn { flex: 0 0 auto; }
+.listen-big { font-size: 1.05rem; margin: 6px 0 10px; }
+.segmented.wrap { flex-wrap: wrap; border-radius: 16px; }
+@media (max-width: 520px) {
+  .listen-lines li { grid-template-columns: 1fr; }
+}
+
+/* Speaking */
+.support-note .plain-list li { flex-wrap: wrap; }
+.speak-controls { margin-top: 8px; }
+.act-prompt { font-size: 1.15rem; font-weight: 500; }
+.roleplay li.mine .speaker { color: var(--success); }
+
+/* Four-skill dashboard: one accent per skill, from the existing palette */
+.skill-writing { --skill: var(--accent); }
+.skill-reading { --skill: #4a7fc1; }
+.skill-listening { --skill: var(--success); }
+.skill-speaking { --skill: #d08a2c; }
+.skill-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px; }
+.skill-card { display: flex; flex-direction: column; gap: 8px; text-align: left; cursor: pointer; margin: 0; border-top: 4px solid var(--skill); }
+.skill-head { display: flex; align-items: center; gap: 10px; }
+.skill-icon { font-size: 1.8rem; color: var(--skill); }
+.skill-fill { background: var(--skill); }
+.goal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+.goal { display: flex; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); cursor: pointer; text-align: left; }
+.goal-check { color: var(--skill); font-weight: 700; font-size: 1.1rem; }
+.goal.done { border-color: var(--skill); }
+
 /* iPhone: notch / home-indicator safe areas (viewport-fit=cover) */
 .nav { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
 .main { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }

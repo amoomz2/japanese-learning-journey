@@ -74,7 +74,24 @@ export function parseBackup(json) {
   }
   const reading = { items: readingItems, days: Array.isArray(r.days) ? [...new Set(r.days.filter(isDay))].sort() : [] }
 
-  return { exportedAt: isDate(json.exportedAt) ? json.exportedAt : null, data: { kana, activeDays, quizHistory, journal, writing, reading } }
+  const skill = (raw) => {
+    const s = isObject(raw) ? raw : {}
+    const items = {}
+    if (isObject(s.items)) {
+      for (const [id, v] of Object.entries(s.items)) {
+        if (!/^[A-Za-z0-9-]{1,40}$/.test(id) || !isObject(v) || !isCount(v.attempts)) continue
+        const best = {}
+        if (isObject(v.best)) for (const [k, n] of Object.entries(v.best)) if (/^[a-z]{1,20}$/.test(k) && isCount(n)) best[k] = Math.min(n, 100)
+        items[id] = { attempts: v.attempts, best }
+      }
+    }
+    return { items, days: Array.isArray(s.days) ? [...new Set(s.days.filter(isDay))].sort() : [] }
+  }
+
+  return {
+    exportedAt: isDate(json.exportedAt) ? json.exportedAt : null,
+    data: { kana, activeDays, quizHistory, journal, writing, reading, listening: skill(d.listening), speaking: skill(d.speaking) },
+  }
 }
 
 export function summarize(data) {
@@ -85,6 +102,8 @@ export function summarize(data) {
     entries: data.journal.length,
     written: Object.keys(data.writing?.chars || {}).length,
     read: Object.keys(data.reading?.items || {}).length,
+    listened: Object.keys(data.listening?.items || {}).length,
+    spoken: Object.keys(data.speaking?.items || {}).length,
   }
 }
 

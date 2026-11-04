@@ -283,7 +283,7 @@ function DialogueReader({ dialogue, onBack, onOpen }) {
 }
 
 // Shared multiple-choice runner: each item is { prompt (node), options, answer, explain (node) }.
-function ChoiceRunner({ items, onDone, label, note }) {
+export function ChoiceRunner({ items, onDone, label, note }) {
   const [index, setIndex] = useState(0)
   const [picked, setPicked] = useState(null)
   const [correct, setCorrect] = useState(0)

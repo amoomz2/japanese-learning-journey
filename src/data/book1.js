@@ -325,7 +325,6 @@ export const LESSONS = [
         title: 'Dialogue 2',
         scene: 'Michael meets a business associate and exchanges business cards; Mrs. Yamamoto introduces Emily at the International Club.',
         page: 35,
-        audioMissing: true,
         lines: [
           ['Oda', 'アジア{銀行|ぎんこう}の{小田|おだ}です。はじめまして。', 'Ajia Ginkou no Oda desu. Hajimemashite.', 'I’m Oda from Bank of Asia. How do you do?', 'أنا أودا من بنك آسيا. تشرفت بمعرفتك.'],
           ['Michael', '{小田|おだ}さんですか。', 'Oda-san desu ka.', 'Mr. Oda?', 'السيد أودا؟'],

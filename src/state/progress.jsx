@@ -3,7 +3,18 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 const STORAGE_KEY = 'jlj-progress-v1'
 const EMPTY_WRITING = { chars: {}, days: [], lessons: [] }
 const EMPTY_READING = { items: {}, days: [] }
-const EMPTY = { kana: {}, activeDays: [], journal: [], quizHistory: [], writing: EMPTY_WRITING, reading: EMPTY_READING }
+// Listening and speaking share one shape: per item, attempts and best % per exercise kind.
+const EMPTY_SKILL = { items: {}, days: [] }
+const EMPTY = {
+  kana: {},
+  activeDays: [],
+  journal: [],
+  quizHistory: [],
+  writing: EMPTY_WRITING,
+  reading: EMPTY_READING,
+  listening: EMPTY_SKILL,
+  speaking: EMPTY_SKILL,
+}
 
 // Reading: per dialogue, reads/best speed (characters per minute) and best % per exercise type.
 export const READING_EXERCISES = ['quiz', 'fill', 'kanji']
@@ -23,7 +34,14 @@ function load() {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return EMPTY
     const parsed = JSON.parse(raw)
-    return { ...EMPTY, ...parsed, writing: { ...EMPTY_WRITING, ...parsed.writing }, reading: { ...EMPTY_READING, ...parsed.reading } }
+    return {
+      ...EMPTY,
+      ...parsed,
+      writing: { ...EMPTY_WRITING, ...parsed.writing },
+      reading: { ...EMPTY_READING, ...parsed.reading },
+      listening: { ...EMPTY_SKILL, ...parsed.listening },
+      speaking: { ...EMPTY_SKILL, ...parsed.speaking },
+    }
   } catch {
     return EMPTY
   }
@@ -127,6 +145,18 @@ export function ProgressProvider({ children }) {
     })
   }, [])
 
+  // skill: 'listening' | 'speaking'; value = % score for that exercise kind.
+  const recordSkill = useCallback((skill, id, kind, value) => {
+    setData((d) => {
+      const today = todayKey()
+      const state = d[skill]
+      const prev = state.items[id] || { attempts: 0, best: {} }
+      const next = { attempts: prev.attempts + 1, best: { ...prev.best, [kind]: Math.max(prev.best[kind] || 0, value) } }
+      const days = state.days.includes(today) ? state.days : [...state.days, today]
+      return { ...d, [skill]: { items: { ...state.items, [id]: next }, days }, activeDays: markActive(d) }
+    })
+  }, [])
+
   const completeWritingLesson = useCallback((lessonId) => {
     setData((d) => (d.writing.lessons.includes(lessonId) ? d : { ...d, writing: { ...d.writing, lessons: [...d.writing.lessons, lessonId] } }))
   }, [])
@@ -137,8 +167,8 @@ export function ProgressProvider({ children }) {
   const replaceAll = useCallback((next) => setData({ ...EMPTY, ...next }), [])
 
   const value = useMemo(
-    () => ({ data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll, recordWriting, completeWritingLesson, recordReading }),
-    [data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll, recordWriting, completeWritingLesson, recordReading],
+    () => ({ data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll, recordWriting, completeWritingLesson, recordReading, recordSkill }),
+    [data, recordAnswer, recordQuiz, addJournal, updateJournal, deleteJournal, resetProgress, replaceAll, recordWriting, completeWritingLesson, recordReading, recordSkill],
   )
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>
