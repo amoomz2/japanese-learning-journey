@@ -23,7 +23,7 @@ const PAGES = {
   reading: { label: 'Reading', component: Reading, group: 'skills', icon: '読' },
   listening: { label: 'Listening', component: Listening, group: 'skills', icon: '聞' },
   speaking: { label: 'Speaking', component: Speaking, group: 'skills', icon: '話' },
-  skills: { label: 'Four skills', component: Skills, group: 'skills', icon: '技' },
+  skills: { label: 'Four skills', component: Skills },
   progress: { label: 'Progress', component: Progress, group: 'you', icon: '進' },
   journal: { label: 'Study Log', component: Journal, group: 'you', icon: '記' },
 }
